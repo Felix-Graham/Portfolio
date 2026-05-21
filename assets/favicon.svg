@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <style>
+      .bg  { fill: #0a0a0a; }
+      .fg  { fill: #f0f0f0; }
+      .fg-ghost { fill: #f0f0f0; opacity: 0.28; }
+      @media (prefers-color-scheme: light) {
+        .bg  { fill: #f5f4f0; }
+        .fg  { fill: #0a0a0a; }
+        .fg-ghost { fill: #0a0a0a; opacity: 0.18; }
+      }
+    </style>
+  </defs>
+  <rect class="bg" width="48" height="48" rx="10"/>
+  <text class="fg-ghost"
+    x="33" y="26"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="DM Mono, ui-monospace, monospace"
+    font-size="22"
+    font-weight="300">G</text>
+  <text class="fg"
+    x="15" y="26"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="DM Mono, ui-monospace, monospace"
+    font-size="22"
+    font-weight="300">F</text>
+</svg>

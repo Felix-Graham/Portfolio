@@ -1,10 +1,51 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Portfolio</title>
-<link href="style.css" rel="stylesheet" type="text/css">
-
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
-  <h1 id="title">Title</h1>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- ── Update these for your site ── -->
+  <title>Felix Graham — Creative Developer</title>
+  <meta name="description" content="Apps, tools, and generative systems.">
+  <meta name="author" content="Felix Graham">
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Felix Graham — Creative Developer">
+  <meta property="og:description" content="Apps, tools, and generative systems.">
+  <meta property="og:type"        content="website">
+  <meta property="og:image" content="./assets/og.png"> 
+
+  <!-- Favicon (replace with your own) -->
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Nav (rendered by main.js) -->
+  <header>
+    <nav class="nav"></nav>
+  </header>
+
+  <main>
+    <!-- Hero (rendered by main.js) -->
+    <section class="hero" id="about"></section>
+
+    <!-- Projects (rendered by main.js) -->
+    <section id="work">
+      <div class="projects__header">
+        <span class="label">Selected work</span>
+        <span class="label projects__year-range"></span>
+      </div>
+      <div class="projects__list"></div>
+    </section>
+  </main>
+
+  <!-- Footer (rendered by main.js) -->
+  <footer class="footer"></footer>
+
+  <!-- Entry point — type="module" enables ES module imports -->
+  <script type="module" src="./main.js"></script>
+
+</body>
+</html>
