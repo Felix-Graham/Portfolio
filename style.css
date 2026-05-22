@@ -158,6 +158,21 @@ body::before {
   margin-bottom: 24px;
 }
 
+
+.hero__name {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin-bottom: 12px;
+  transition: color var(--duration) var(--ease-out);
+}
+ 
+/* Push eyebrow down slightly to create breathing room under the name */
+.hero__eyebrow {
+  margin-bottom: 32px;
+}
+
 .hero__headline {
   font-size: clamp(46px, 7.5vw, 88px);
   font-weight: 300;

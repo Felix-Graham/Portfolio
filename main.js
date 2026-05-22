@@ -47,11 +47,11 @@ function toggleTheme() {
 }
 
 // ── Render nav ────────────────────────────────
+// Name removed from nav — now lives in the hero
 function renderNav() {
   const nav = document.querySelector('.nav');
   nav.innerHTML = `
     <div class="nav__left">
-      <a href="#" class="nav__logo">${config.name}</a>
       <ul class="nav__links">
         <li><a href="#work">Work</a></li>
         <li><a href="#about">About</a></li>
@@ -69,6 +69,7 @@ function renderNav() {
 }
 
 // ── Render hero ───────────────────────────────
+// Name now leads the hero at large scale
 function renderHero() {
   const hero = document.querySelector('.hero');
   const headlineHTML = config.headline
@@ -76,7 +77,8 @@ function renderHero() {
     .join('<br>');
 
   hero.innerHTML = `
-    <p class="hero__eyebrow">${config.role} — Based in ${config.location}</p>
+    <p class="hero__name">${config.name}</p>
+    <p class="hero__eyebrow">${config.role} — ${config.location}</p>
     <h1 class="hero__headline">${headlineHTML}</h1>
     <p class="hero__bio">${config.bio}</p>
     ${config.available ? `
@@ -91,7 +93,6 @@ function renderHero() {
 function renderProjects() {
   const container = document.querySelector('.projects__list');
 
-  // Update the year range label dynamically
   const years = projects.map(p => parseInt(p.year)).filter(Boolean);
   if (years.length) {
     const min = Math.min(...years);
@@ -153,11 +154,9 @@ function renderProjects() {
       </div>
     `;
 
-    // Accordion toggle
     const summary = el.querySelector('.project__summary');
     const toggle  = () => {
       const isOpen = el.classList.contains('is-open');
-      // Close all others
       document.querySelectorAll('.project.is-open').forEach(p => {
         p.classList.remove('is-open');
         p.querySelector('.project__summary').setAttribute('aria-expanded', 'false');
@@ -181,19 +180,20 @@ function renderProjects() {
 function renderFooter() {
   const footer = document.querySelector('.footer');
   const { github, linkedin, twitter, email } = config.social;
- 
+
   const links = [
     github   && `<a href="${github}"   target="_blank" rel="noopener">GitHub</a>`,
     linkedin && `<a href="${linkedin}" target="_blank" rel="noopener">LinkedIn</a>`,
     twitter  && `<a href="${twitter}"  target="_blank" rel="noopener">Twitter</a>`,
     email    && `<a href="mailto:${email}">Email</a>`,
   ].filter(Boolean).join('');
- 
+
   footer.innerHTML = `
     <span class="footer__copy">© ${config.year}</span>
     <div class="footer__links">${links}</div>
   `;
 }
+
 // ── Boot ──────────────────────────────────────
 initTheme();
 renderNav();
