@@ -11,7 +11,6 @@ export const projects = [
     image:       null,
     description: 'A python based tool with multiple different modes for testing on the prescribed vocabulary for AQA A Level French. Hosted on GitHub as a beginner project to help my classmates and myself.',
     links: [
-      { label: 'Live demo', icon: 'external-link', href: 'https://github.com/Felix-Graham/French-Vocab-Quiz.git' },
       { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/French-Vocab-Quiz.git' },
     ],
   },
@@ -24,8 +23,8 @@ export const projects = [
     image:       null,
     description: 'A JavaScript focused WebApp using APIs to convert currencies. A simple project to demonstrate the use of APIs in JavaScript',
     links: [
-      { label: 'Live demo', icon: 'external-link', href: './projects/jsCurrencyConverter/' },
-      { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/gitPortfolio/main/projects/jsCurrencyConverter/' },
+      { label: 'Live demo', icon: 'external-link', href: 'https://felix-graham.github.io/Portfolio/projects/jsCurrencyConverter/' },
+      { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/Portfolio/tree/main/projects/jsCurrencyConverter' },
     ],
   },
 
