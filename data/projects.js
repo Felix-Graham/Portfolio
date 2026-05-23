@@ -24,7 +24,7 @@ export const projects = [
     image:       null,
     description: 'A JavaScript focused WebApp using APIs to convert currencies. A simple project to demonstrate the use of APIs in JavaScript',
     links: [
-      { label: 'Live demo', icon: 'external-link', href: './projects/jsCurrencyConverter/index.html' },
+      { label: 'Live demo', icon: 'external-link', href: './projects/jsCurrencyConverter/' },
       { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/gitPortfolio/main/projects/jsCurrencyConverter/' },
     ],
   },
