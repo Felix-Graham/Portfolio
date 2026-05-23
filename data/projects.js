@@ -20,7 +20,7 @@ export const projects = [
     sub:         'Global Currency Converter WebApp Written In JavaScript',
     tags:        ['JavaScript', 'WebApp'],
     year:        '2026',
-    image:       './projects/jsCurrencyConverter/demo.png',
+    image:       'https://felix-graham.github.io/Portfolio/projects/jsCurrencyConverter/demo.png',
     description: 'A JavaScript focused WebApp using APIs to convert currencies. A simple project to demonstrate the use of APIs in JavaScript',
     links: [
       { label: 'Live demo', icon: 'external-link', href: 'https://felix-graham.github.io/Portfolio/projects/jsCurrencyConverter/' },
