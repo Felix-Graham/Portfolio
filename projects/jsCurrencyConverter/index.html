@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Currency — Converter</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page" id="app">
+
+    <div class="nav">
+      <span class="nav__logo">Currency</span>
+      <span class="nav__tag">Converter</span>
+    </div>
+
+    <div class="panel-left">
+      <div>
+        <div class="field-label">Amount</div>
+        <input class="amount-input" type="number" id="amount" placeholder="0.00" value="1" min="0" step="any" />
+      </div>
+
+      <div>
+        <div class="field-label">From</div>
+        <div class="currency-box">
+          <select class="currency-select" id="from"></select>
+        </div>
+      </div>
+
+      <div class="swap-area">
+        <button class="swap-btn" id="swapBtn">&#8644; swap</button>
+      </div>
+    </div>
+
+    <div class="panel-right">
+      <div>
+        <div class="field-label">To</div>
+        <div class="currency-box">
+          <select class="currency-select" id="to"></select>
+        </div>
+      </div>
+
+      <div class="result-display">
+        <div class="field-label">Result</div>
+        <div class="result-value empty" id="result">—</div>
+        <div class="result-meta" id="result-meta"></div>
+      </div>
+    </div>
+
+    <div class="panel-bottom">
+      <div class="panel-bottom__rate">
+        <div class="rate-dot" id="rateDot" style="opacity:0.2"></div>
+        <span class="rate-info" id="rateInfo">Enter an amount and convert</span>
+      </div>
+      <div class="panel-bottom__action">
+        <button class="convert-btn" id="convertBtn">
+          <span>Convert</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="error-strip" id="errorStrip"></div>
+
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+/* ─────────────────────────────────────────────
+   CURRENCY CONVERTER — STYLESHEET
+   Nothing-inspired monochrome minimal
+   ───────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+/* ── Design tokens ── */
+:root {
+  --bg:           #0a0a0a;
+  --bg-2:         #111111;
+  --fg:           #f0f0f0;
+  --fg-60:        rgba(240,240,240,0.6);
+  --fg-50:        rgba(240,240,240,0.5);
+  --fg-35:        rgba(240,240,240,0.35);
+  --fg-20:        rgba(240,240,240,0.2);
+  --fg-10:        rgba(240,240,240,0.1);
+  --fg-07:        rgba(240,240,240,0.07);
+  --fg-04:        rgba(240,240,240,0.04);
+  --border:       rgba(240,240,240,0.1);
+  --border-soft:  rgba(240,240,240,0.07);
+  --tag-bg:       rgba(240,240,240,0.05);
+  --tag-border:   rgba(240,240,240,0.14);
+  --toggle-bg:    rgba(240,240,240,0.07);
+  --toggle-hover: rgba(240,240,240,0.12);
+  --ease-out:     cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration:     0.38s;
+}
+
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: 'DM Mono', monospace;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* ── Grain overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 180px;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.55;
+}
+
+/* ── Page grid ── */
+.page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  border: 0.5px solid var(--border);
+  width: 100%;
+  max-width: 700px;
+}
+
+/* ── Nav strip — full width ── */
+.nav {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.nav__logo {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.nav__tag {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-20);
+}
+
+/* ── Left panel — amount + from ── */
+.panel-left {
+  border-right: 0.5px solid var(--border);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── Right panel — to + result ── */
+.panel-right {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── Bottom strip — rate + button ── */
+.panel-bottom {
+  grid-column: 1 / -1;
+  border-top: 0.5px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.panel-bottom__rate {
+  padding: 20px 32px;
+  border-right: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-bottom__action {
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ── Field label ── */
+.field-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-20);
+  margin-bottom: 10px;
+}
+
+/* ── Amount input ── */
+.amount-input {
+  font-family: 'DM Mono', monospace;
+  font-size: 36px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  width: 100%;
+  outline: none;
+  caret-color: var(--fg-50);
+  border-bottom: 0.5px solid var(--border-soft);
+  padding-bottom: 8px;
+  transition: border-color 0.18s;
+}
+.amount-input:focus { border-bottom-color: var(--fg-20); }
+.amount-input::placeholder { color: var(--fg-20); }
+
+/* Hide number input spinners */
+.amount-input::-webkit-outer-spin-button,
+.amount-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.amount-input[type=number] { -moz-appearance: textfield; }
+
+/* ── Currency select box ── */
+.currency-box {
+  border: 0.5px solid var(--border);
+  background: var(--fg-04);
+}
+
+.currency-select {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  color: var(--fg-50);
+  width: 100%;
+  padding: 12px 14px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.currency-select:focus { color: var(--fg); }
+.currency-select option {
+  background: #111111;
+  color: #f0f0f0;
+}
+
+/* ── Swap button ── */
+.swap-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swap-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-20);
+  background: transparent;
+  border: 0.5px solid var(--border-soft);
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+}
+.swap-btn:hover {
+  color: var(--fg-50);
+  border-color: var(--border);
+  background: var(--fg-04);
+}
+
+/* ── Result display ── */
+.result-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.result-value {
+  font-size: 36px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  transition: opacity 0.22s;
+  border-bottom: 0.5px solid var(--border-soft);
+  padding-bottom: 8px;
+  min-height: 52px;
+}
+.result-value.empty { color: var(--fg-20); }
+
+.result-meta {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-20);
+  margin-top: 8px;
+}
+
+/* ── Rate info strip ── */
+.rate-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fg);
+  flex-shrink: 0;
+  transition: background var(--duration) var(--ease-out);
+  animation: pulse 2.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.15; }
+}
+
+.rate-info {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--fg-35);
+}
+
+/* ── Convert button ── */
+.convert-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-50);
+  background: var(--fg-07);
+  border: 0.5px solid var(--border);
+  padding: 12px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+.convert-btn:hover {
+  background: var(--fg-10);
+  color: var(--fg);
+  border-color: var(--fg-20);
+}
+.convert-btn:active { opacity: 0.7; }
+.convert-btn.loading { opacity: 0.5; pointer-events: none; }
+
+.convert-btn svg {
+  flex-shrink: 0;
+}
+
+/* ── Error strip ── */
+.error-strip {
+  grid-column: 1 / -1;
+  border-top: 0.5px solid rgba(220,80,60,0.3);
+  background: rgba(220,80,60,0.05);
+  padding: 12px 32px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(220,120,100,0.8);
+  display: none;
+}
+.error-strip.visible { display: block; }
+
+/* ── Responsive ── */
+@media (max-width: 560px) {
+  body { padding: 0; align-items: flex-start; }
+
+  .page {
+    grid-template-columns: 1fr;
+    border-left: none;
+    border-right: none;
+    max-width: 100%;
+  }
+
+  .nav { padding: 18px 20px; }
+
+  .panel-left {
+    border-right: none;
+    border-bottom: 0.5px solid var(--border);
+    padding: 24px 20px;
+  }
+
+  .panel-right { padding: 24px 20px; }
+
+  .panel-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-bottom__rate {
+    border-right: none;
+    border-bottom: 0.5px solid var(--border);
+    padding: 16px 20px;
+  }
+
+  .panel-bottom__action {
+    padding: 16px 20px;
+    justify-content: flex-start;
+  }
+
+  .amount-input,
+  .result-value { font-size: 28px; }
+}

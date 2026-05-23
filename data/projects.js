@@ -15,4 +15,19 @@ export const projects = [
       { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/French-Vocab-Quiz.git' },
     ],
   },
+
+  {
+    title:       'JS Currency Converter',
+    sub:         'Global Currency Converter WebApp Written In JavaScript',
+    tags:        ['JavaScript', 'WebApp'],
+    year:        '2026',
+    image:       null,
+    description: 'A JavaScript focused WebApp using APIs to convert currencies. A simple project to demonstrate the use of APIs in JavaScript',
+    links: [
+      { label: 'Live demo', icon: 'external-link', href: 'https://github.com' },
+      { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/gitPortfolio/main/projects/jsCurrencyConverter' },
+    ],
+  },
+
+
 ];
