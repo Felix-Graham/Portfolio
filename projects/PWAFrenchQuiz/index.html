@@ -166,32 +166,61 @@ body::before{
   border-bottom:0.5px solid var(--border-soft);
   min-height:220px;
 }
+.menu-title{
+  font-size:clamp(20px,3.5vw,28px);font-weight:300;letter-spacing:-0.02em;
+  color:var(--fg);margin-bottom:4px;line-height:1.1;font-style:italic;
+}
+.menu-subtitle{
+  font-size:10px;letter-spacing:0.06em;color:var(--fg-20);
+  margin-bottom:22px;
+}
 .section-label{
   font-size:9px;letter-spacing:0.1em;text-transform:uppercase;
   color:var(--fg-20);margin-bottom:8px;
 }
-.file-list{display:flex;flex-direction:column;gap:3px;margin-bottom:20px}
-.file-row{
+
+/* ── Custom dropdown ── */
+.vocab-dropdown{position:relative;margin-bottom:20px}
+.dropdown-trigger{
   display:flex;align-items:center;justify-content:space-between;
-  padding:9px 12px;border:0.5px solid var(--border-soft);
-  cursor:pointer;transition:background 0.15s,border-color 0.15s;
-  user-select:none;
+  padding:10px 12px;border:0.5px solid var(--border);background:var(--fg-04);
+  cursor:pointer;user-select:none;transition:background 0.15s,border-color 0.15s;
+  width:100%;
 }
-.file-row:hover{background:var(--fg-04)}
-.file-row.selected{border-color:var(--border);background:var(--fg-04)}
-.file-row__left{display:flex;align-items:center;gap:10px}
-.file-check{
-  width:14px;height:14px;border:0.5px solid var(--fg-20);
-  border-radius:1px;display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;transition:border-color 0.15s,background 0.15s;
+.dropdown-trigger:hover{background:var(--toggle-hover)}
+.dropdown-trigger.open{border-color:var(--fg-35)}
+.dropdown-trigger__left{display:flex;align-items:center;gap:10px}
+.dropdown-label{font-size:12px;font-weight:300;color:var(--fg)}
+.dropdown-meta{font-size:10px;color:var(--fg-20);letter-spacing:0.06em}
+.dropdown-caret{font-size:11px;color:var(--fg-20);transition:transform 0.2s;flex-shrink:0}
+.dropdown-trigger.open .dropdown-caret{transform:rotate(180deg)}
+.dropdown-panel{
+  position:absolute;top:calc(100% + 2px);left:0;right:0;
+  background:var(--bg);border:0.5px solid var(--border);
+  z-index:10;display:none;flex-direction:column;
 }
-.file-row.selected .file-check{border-color:var(--fg-50);background:var(--fg-10)}
-.file-row.selected .file-check::after{
+.dropdown-panel.open{display:flex}
+.dropdown-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 12px;cursor:pointer;user-select:none;
+  transition:background 0.12s;border-bottom:0.5px solid var(--border-soft);
+}
+.dropdown-item:last-child{border-bottom:none}
+.dropdown-item:hover{background:var(--fg-04)}
+.dropdown-item.selected{background:var(--fg-07)}
+.dropdown-item__left{display:flex;align-items:center;gap:10px}
+.item-check{
+  width:14px;height:14px;border:0.5px solid var(--fg-20);border-radius:1px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:border-color 0.15s,background 0.15s;
+}
+.dropdown-item.selected .item-check{border-color:var(--fg-50);background:var(--fg-10)}
+.dropdown-item.selected .item-check::after{
   content:'';display:block;width:6px;height:6px;background:var(--fg);border-radius:0;
 }
-.file-name{font-size:12px;font-weight:300;color:var(--fg)}
-.file-count{font-size:10px;color:var(--fg-20);letter-spacing:0.06em}
-.file-all-row{border-top:0.5px solid var(--border-soft);margin-top:4px}
+.item-name{font-size:12px;font-weight:300;color:var(--fg)}
+.item-count{font-size:10px;color:var(--fg-20);letter-spacing:0.06em}
+.dropdown-divider{height:0.5px;background:var(--border);margin:0}
 
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:20px}
 .mode-card{
@@ -315,34 +344,32 @@ async function showStartScreen() {
   renderStartScreen()
 }
 
+let dropdownOpen = false
+
 function renderStartScreen() {
   dynamicBody.innerHTML = ''
+  dropdownOpen = false
   const body = document.createElement('div')
   body.className = 'start-body'
 
-  // ── Vocab set section ──
+  // ── Title ──
+  const title = document.createElement('div')
+  title.className = 'menu-title'
+  title.textContent = 'french vocabulary'
+  body.appendChild(title)
+
+  const subtitle = document.createElement('div')
+  subtitle.className = 'menu-subtitle'
+  subtitle.textContent = 'select a set and mode to begin'
+  body.appendChild(subtitle)
+
+  // ── Vocab set dropdown ──
   const setLabel = document.createElement('div')
   setLabel.className = 'section-label'
   setLabel.textContent = 'vocab set'
   body.appendChild(setLabel)
 
-  const fileList = document.createElement('div')
-  fileList.className = 'file-list'
-
-  manifest.forEach(entry => {
-    const row = buildFileRow(entry.file, entry.label, entry.count, false)
-    fileList.appendChild(row)
-  })
-
-  // "All sets" row
-  if (manifest.length > 1) {
-    const totalPairs = manifest.reduce((s, e) => s + (e.count || 0), 0)
-    const allRow = buildFileRow('__all__', 'all sets', totalPairs, true)
-    allRow.classList.add('file-all-row')
-    fileList.appendChild(allRow)
-  }
-
-  body.appendChild(fileList)
+  body.appendChild(buildDropdown())
 
   // ── Mode section ──
   const modeLabel = document.createElement('div')
@@ -378,84 +405,157 @@ function renderStartScreen() {
   // ── Start button ──
   const btn = document.createElement('button')
   btn.className = 'start-btn'
-  const anySelected = selectedFiles.size > 0
-  btn.disabled = !anySelected
-  const totalSelected = manifest
-    .filter(e => selectedFiles.has(e.file) || selectedFiles.has('__all__'))
-    .reduce((s, e) => s + (e.count || 0), 0)
+  btn.disabled = selectedFiles.size === 0
   btn.innerHTML = `<span>start quiz</span><span>↵</span>`
   btn.addEventListener('click', launchQuiz)
   body.appendChild(btn)
 
   dynamicBody.appendChild(body)
 
+  // Close dropdown when clicking outside
+  document.addEventListener('click', onOutsideClick)
+
   // Keyboard: Enter to start
   document.onkeydown = e => {
     if (appState === 'start' && e.key === 'Enter' && !btn.disabled) launchQuiz()
+    if (appState === 'start' && e.key === 'Escape') closeDropdown()
   }
 
-  // Footer status
-  const count = selectedFiles.size
-  const pairs = manifest
-    .filter(e => selectedFiles.has('__all__') || selectedFiles.has(e.file))
-    .reduce((s, e) => s + (e.count || 0), 0)
+  updateFooter()
+}
+
+function buildDropdown() {
+  const wrapper = document.createElement('div')
+  wrapper.className = 'vocab-dropdown'
+  wrapper.id = 'vocabDropdown'
+
+  // Compute trigger label
+  const selCount = selectedFiles.size
+  const allSel = selectedFiles.has('__all__')
+  let triggerLabel = 'select sets…'
+  let triggerMeta = ''
+  if (allSel) {
+    const total = manifest.reduce((s, e) => s + (e.count || 0), 0)
+    triggerLabel = 'all sets'
+    triggerMeta = total + ' pairs'
+  } else if (selCount === 1) {
+    const file = [...selectedFiles][0]
+    const entry = manifest.find(e => e.file === file)
+    if (entry) { triggerLabel = entry.label; triggerMeta = (entry.count || '') + ' pairs' }
+  } else if (selCount > 1) {
+    const pairs = manifest.filter(e => selectedFiles.has(e.file)).reduce((s, e) => s + (e.count || 0), 0)
+    triggerLabel = selCount + ' sets selected'
+    triggerMeta = pairs + ' pairs'
+  }
+
+  const trigger = document.createElement('div')
+  trigger.className = 'dropdown-trigger' + (dropdownOpen ? ' open' : '')
+  trigger.id = 'dropdownTrigger'
+  trigger.innerHTML = `
+    <div class="dropdown-trigger__left">
+      <span class="dropdown-label">${triggerLabel}</span>
+      ${triggerMeta ? `<span class="dropdown-meta">${triggerMeta}</span>` : ''}
+    </div>
+    <span class="dropdown-caret">▾</span>
+  `
+  trigger.addEventListener('click', e => { e.stopPropagation(); toggleDropdown() })
+  wrapper.appendChild(trigger)
+
+  // Panel
+  const panel = document.createElement('div')
+  panel.className = 'dropdown-panel' + (dropdownOpen ? ' open' : '')
+  panel.id = 'dropdownPanel'
+
+  // Individual sets
+  manifest.forEach(entry => {
+    panel.appendChild(buildDropdownItem(entry.file, entry.label, entry.count, false))
+  })
+
+  // Divider + all sets
+  if (manifest.length > 1) {
+    const div = document.createElement('div')
+    div.className = 'dropdown-divider'
+    panel.appendChild(div)
+    const total = manifest.reduce((s, e) => s + (e.count || 0), 0)
+    panel.appendChild(buildDropdownItem('__all__', 'all sets', total, true))
+  }
+
+  wrapper.appendChild(panel)
+  return wrapper
+}
+
+function buildDropdownItem(file, label, count, isAll) {
+  const isSel = isAll ? selectedFiles.has('__all__') : selectedFiles.has(file)
+  const item = document.createElement('div')
+  item.className = 'dropdown-item' + (isSel ? ' selected' : '')
+  item.innerHTML = `
+    <div class="dropdown-item__left">
+      <div class="item-check"></div>
+      <span class="item-name">${label}</span>
+    </div>
+    <span class="item-count">${count ? count + ' pairs' : ''}</span>
+  `
+  item.addEventListener('click', e => {
+    e.stopPropagation()
+    if (isAll) {
+      if (selectedFiles.has('__all__')) { selectedFiles.clear() }
+      else { selectedFiles.clear(); selectedFiles.add('__all__') }
+    } else {
+      selectedFiles.delete('__all__')
+      if (selectedFiles.has(file)) { selectedFiles.delete(file) }
+      else { selectedFiles.add(file) }
+    }
+    refreshDropdown()
+    updateFooter()
+    // Enable/disable start button
+    const btn = document.querySelector('.start-btn')
+    if (btn) btn.disabled = selectedFiles.size === 0
+  })
+  return item
+}
+
+function toggleDropdown() {
+  dropdownOpen = !dropdownOpen
+  document.getElementById('dropdownTrigger')?.classList.toggle('open', dropdownOpen)
+  document.getElementById('dropdownPanel')?.classList.toggle('open', dropdownOpen)
+}
+
+function closeDropdown() {
+  dropdownOpen = false
+  document.getElementById('dropdownTrigger')?.classList.remove('open')
+  document.getElementById('dropdownPanel')?.classList.remove('open')
+}
+
+function refreshDropdown() {
+  // Rebuild just the dropdown in place (keeps panel open)
+  const wrapper = document.getElementById('vocabDropdown')
+  if (!wrapper) return
+  const parent = wrapper.parentNode
+  const next = wrapper.nextSibling
+  const fresh = buildDropdown()
+  parent.insertBefore(fresh, next)
+  wrapper.remove()
+}
+
+function onOutsideClick() {
+  if (dropdownOpen) closeDropdown()
+}
+
+function updateFooter() {
+  const pairs = selectedFiles.has('__all__')
+    ? manifest.reduce((s, e) => s + (e.count || 0), 0)
+    : manifest.filter(e => selectedFiles.has(e.file)).reduce((s, e) => s + (e.count || 0), 0)
+  const count = selectedFiles.has('__all__') ? manifest.length : selectedFiles.size
   statusLabel.textContent = count
     ? `${count} set${count > 1 ? 's' : ''} selected · ${pairs} pairs`
     : 'select at least one set'
-}
-
-function buildFileRow(file, label, count, isAll) {
-  const row = document.createElement('div')
-  const isSel = isAll ? selectedFiles.has('__all__') : selectedFiles.has(file)
-  row.className = 'file-row' + (isSel ? ' selected' : '')
-
-  const left = document.createElement('div')
-  left.className = 'file-row__left'
-
-  const check = document.createElement('div')
-  check.className = 'file-check'
-
-  const name = document.createElement('span')
-  name.className = 'file-name'
-  name.textContent = label
-
-  left.appendChild(check)
-  left.appendChild(name)
-
-  const cnt = document.createElement('span')
-  cnt.className = 'file-count'
-  cnt.textContent = count ? count + ' pairs' : ''
-
-  row.appendChild(left)
-  row.appendChild(cnt)
-
-  row.addEventListener('click', () => {
-    if (isAll) {
-      // Toggle all
-      if (selectedFiles.has('__all__')) {
-        selectedFiles.clear()
-      } else {
-        selectedFiles.clear()
-        selectedFiles.add('__all__')
-      }
-    } else {
-      selectedFiles.delete('__all__')
-      if (selectedFiles.has(file)) {
-        selectedFiles.delete(file)
-      } else {
-        selectedFiles.add(file)
-      }
-    }
-    renderStartScreen()
-  })
-
-  return row
 }
 
 // ══════════════════════════════════════════════════════
 // LAUNCH
 // ══════════════════════════════════════════════════════
 async function launchQuiz() {
+  document.removeEventListener('click', onOutsideClick)
   statusLabel.textContent = 'loading vocab...'
   dynamicBody.innerHTML = '<div style="padding:40px 28px;font-size:11px;color:var(--fg-20)">loading…</div>'
 
