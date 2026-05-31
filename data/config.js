@@ -12,12 +12,12 @@ export const config = {
   available: true,
 
   headline: [
-    'Building things',
-    'that <em>think</em>',
-    'and move.',
+    'I use',
+    '<em>{Python, HTML, CSS, Java, C, Bash}</em>',
+    'with power',
   ],
 
-  bio: 'Apps, tools, and generative systems. I make software that has character — precise where it needs to be, expressive where it wants to be.',
+  bio: 'I enjoy solving interesting problems with interesting solutions.',
 
   social: {
     github:   'https://github.com/Felix-Graham',
