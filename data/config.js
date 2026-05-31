@@ -10,12 +10,15 @@ export const config = {
   location: 'Brighton, UK',
 
   available: true,
+  availableFor: 'internships',
 
   headline: [
     'I use',
-    '{<em>Python, HTML, Java, C...</em>}',
+    '<em> Python JavaScript CSS</em>',
     'with power and intent.',
   ],
+
+  currentlyLearning: ['"Rust"', '"Node JS"', '"QML"'],
 
   bio: 'I enjoy solving interesting problems with interesting solutions.',
 

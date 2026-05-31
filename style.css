@@ -187,6 +187,8 @@ body::before {
   font-style: italic;
   color: var(--fg-35);
   transition: color var(--duration) var(--ease-out);
+  font-size: clamp(36px, 4vw, 68px);
+  text-align: center;
 }
 
 .hero__bio {
@@ -481,4 +483,28 @@ body::before {
   .project__text-col  { padding: 24px 20px; }
   .footer      { padding: 20px; }
   .project__right .tag { display: none; }
+}
+
+/* ── Currently Learning ── */
+.hero__learning {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.hero__learning-label {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-20);
+  white-space: nowrap;
+}
+
+.hero__learning-items {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--fg-35);
+  transition: color var(--duration) var(--ease-out);
 }

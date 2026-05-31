@@ -79,12 +79,14 @@ function renderHero() {
   hero.innerHTML = `
     <p class="hero__name">${config.name}</p>
     <p class="hero__eyebrow">${config.role} — ${config.location}</p>
+    ${config.currentlyLearning?.length ? `<div class="hero__learning"><span class="hero__learning-label">Currently learning: </span><span class="hero__learning-items">{ ${config.currentlyLearning.join("  ")}  }</span></div>` : ""}
     <h1 class="hero__headline">${headlineHTML}</h1>
+
     <p class="hero__bio">${config.bio}</p>
     ${config.available ? `
     <div class="hero__status">
       <span class="status-dot"></span>
-      Available for select projects
+      Available for ${config.availableFor}
     </div>` : ''}
   `;
 }
