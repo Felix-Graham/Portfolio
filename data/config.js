@@ -13,8 +13,8 @@ export const config = {
 
   headline: [
     'I use',
-    '<em>{Python, HTML, CSS, Java, C, Bash}</em>',
-    'with power',
+    '{<em>Python, HTML, Java, C...</em>}',
+    'with power and intent.',
   ],
 
   bio: 'I enjoy solving interesting problems with interesting solutions.',
