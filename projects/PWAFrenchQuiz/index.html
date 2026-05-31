@@ -60,7 +60,7 @@ body::before{
 }
 .titlebar__left{display:flex;align-items:center;gap:24px}
 .shell-label{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg)}
-.shell-mode{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-20)}
+.shell-mode{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--fg-20);transition:color 0.2s}
 .theme-btn{
   display:flex;align-items:center;justify-content:center;
   width:32px;height:32px;border:0.5px solid var(--border);
@@ -80,7 +80,7 @@ body::before{
 .stat__label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-20);margin-bottom:2px}
 .stat__val{font-size:16px;font-weight:400;color:var(--fg);transition:color var(--duration) var(--ease-out)}
 
-/* ── Output ── */
+/* ── Output (quiz mode) ── */
 .output{
   min-height:220px;max-height:320px;overflow-y:auto;
   padding:28px 28px 20px;display:flex;flex-direction:column;gap:3px;
@@ -102,7 +102,7 @@ body::before{
   background:var(--tag-bg);color:var(--fg-35);border-radius:1px;
 }
 
-/* ── Input row ── */
+/* ── Input row (traditional) ── */
 .input-row{
   display:flex;align-items:center;gap:14px;
   padding:16px 28px;border-bottom:0.5px solid var(--border-soft);
@@ -116,6 +116,29 @@ body::before{
 }
 .answer-input::placeholder{color:var(--fg-20)}
 .answer-input:disabled{opacity:0.3}
+
+/* ── Multiple choice grid ── */
+.choices-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--border-soft);
+  border-top:0.5px solid var(--border-soft);
+}
+.choice-btn{
+  padding:14px 18px;background:var(--bg);
+  border:none;font-family:'DM Mono',monospace;font-size:11px;font-weight:300;
+  letter-spacing:0.02em;color:var(--fg-35);cursor:pointer;text-align:left;
+  transition:background 0.15s,color 0.15s;position:relative;line-height:1.5;
+}
+.choice-btn:hover:not(:disabled){background:var(--fg-04);color:var(--fg-60)}
+.choice-btn:disabled{cursor:default}
+.choice-btn .choice-key{
+  font-size:9px;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--fg-20);display:block;margin-bottom:3px;
+}
+.choice-btn.correct{color:var(--fg-50) !important;background:var(--fg-04) !important}
+.choice-btn.correct .choice-key{color:var(--fg-35)}
+.choice-btn.wrong{color:var(--fg-20) !important}
+.choice-btn.reveal-correct{color:var(--fg-35) !important;background:var(--fg-07) !important}
 
 /* ── Footer ── */
 .footer-bar{
@@ -135,21 +158,90 @@ body::before{
 }
 .skip-btn:hover{color:var(--fg-50)}
 
+/* ═══════════════════════════════
+   START SCREEN
+   ═══════════════════════════════ */
+.start-body{
+  padding:24px 28px 20px;
+  border-bottom:0.5px solid var(--border-soft);
+  min-height:220px;
+}
+.section-label{
+  font-size:9px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--fg-20);margin-bottom:8px;
+}
+.file-list{display:flex;flex-direction:column;gap:3px;margin-bottom:20px}
+.file-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 12px;border:0.5px solid var(--border-soft);
+  cursor:pointer;transition:background 0.15s,border-color 0.15s;
+  user-select:none;
+}
+.file-row:hover{background:var(--fg-04)}
+.file-row.selected{border-color:var(--border);background:var(--fg-04)}
+.file-row__left{display:flex;align-items:center;gap:10px}
+.file-check{
+  width:14px;height:14px;border:0.5px solid var(--fg-20);
+  border-radius:1px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:border-color 0.15s,background 0.15s;
+}
+.file-row.selected .file-check{border-color:var(--fg-50);background:var(--fg-10)}
+.file-row.selected .file-check::after{
+  content:'';display:block;width:6px;height:6px;background:var(--fg);border-radius:0;
+}
+.file-name{font-size:12px;font-weight:300;color:var(--fg)}
+.file-count{font-size:10px;color:var(--fg-20);letter-spacing:0.06em}
+.file-all-row{border-top:0.5px solid var(--border-soft);margin-top:4px}
+
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:20px}
+.mode-card{
+  padding:12px 14px;border:0.5px solid var(--border-soft);cursor:pointer;
+  transition:background 0.15s,border-color 0.15s;user-select:none;
+}
+.mode-card:hover{background:var(--fg-04)}
+.mode-card.selected{border-color:var(--border);background:var(--fg-04)}
+.mode-name{font-size:12px;font-weight:400;color:var(--fg);margin-bottom:3px}
+.mode-desc{font-size:10px;color:var(--fg-20);font-weight:300;line-height:1.5}
+.mode-badge{
+  display:inline-block;margin-top:7px;font-size:9px;letter-spacing:0.06em;
+  text-transform:uppercase;padding:2px 6px;border:0.5px solid var(--tag-border);
+  background:var(--tag-bg);color:var(--fg-20);border-radius:1px;
+}
+.mode-card.selected .mode-badge{border-color:var(--border);color:var(--fg-35)}
+
+.start-btn{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;padding:12px 16px;
+  border:0.5px solid var(--border);background:var(--fg-07);
+  color:var(--fg);font-family:'DM Mono',monospace;font-size:11px;
+  letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;
+  transition:background 0.15s;
+}
+.start-btn:hover{background:var(--toggle-hover)}
+.start-btn:disabled{opacity:0.3;cursor:default}
+
 /* ── Responsive ── */
 @media(max-width:480px){
   body{padding:0;align-items:flex-start}
   .shell{border-left:none;border-right:none;border-top:none;min-height:100vh}
   .stat__val{font-size:14px}
+  .start-body{padding:20px 20px 16px}
+  .titlebar{padding:14px 20px}
+  .footer-bar{padding:11px 20px}
+  .output{padding:20px 20px 16px}
+  .input-row{padding:16px 20px}
+  .choice-btn{padding:12px 14px}
 }
 </style>
 </head>
 <body>
 <div class="shell">
 
+  <!-- Titlebar -->
   <div class="titlebar">
     <div class="titlebar__left">
       <span class="shell-label">quiz.py</span>
-      <span class="shell-mode">traditional</span>
+      <span class="shell-mode" id="shellMode">start</span>
     </div>
     <button class="theme-btn" onclick="toggleTheme()" aria-label="toggle theme">
       <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
@@ -157,6 +249,7 @@ body::before{
     </button>
   </div>
 
+  <!-- Stats bar -->
   <div class="stats-bar">
     <div class="stat"><div class="stat__label">score</div><div class="stat__val" id="scoreEl">0</div></div>
     <div class="stat"><div class="stat__label">streak</div><div class="stat__val" id="streakEl">0</div></div>
@@ -164,130 +257,439 @@ body::before{
     <div class="stat"><div class="stat__label">accuracy</div><div class="stat__val" id="accEl">—</div></div>
   </div>
 
-  <div class="output" id="output"></div>
+  <!-- Dynamic body — swapped between start screen and quiz -->
+  <div id="dynamicBody"></div>
 
-  <div class="input-row">
-    <span class="prompt-sym">›</span>
-    <input class="answer-input" id="answerInput" placeholder="type your answer..."
-           autocomplete="off" autocorrect="off" spellcheck="false" disabled/>
-  </div>
-
+  <!-- Footer -->
   <div class="footer-bar">
-    <span class="footer-hint"><span class="status-dot"></span><span id="statusLabel">loading vocab...</span></span>
-    <button class="skip-btn" onclick="skipQuestion()">skip →</button>
+    <span class="footer-hint"><span class="status-dot"></span><span id="statusLabel">loading...</span></span>
+    <button class="skip-btn" id="skipBtn" style="display:none" onclick="skipQuestion()">skip →</button>
   </div>
 
 </div>
 
 <script src="quiz.js"></script>
 <script>
-// ── State ──
-let score=0, streak=0, asked=0, waiting=false
-let currentFr="", currentEn=""
+// ══════════════════════════════════════════════════════
+// App state
+// ══════════════════════════════════════════════════════
+let appState   = 'start'   // 'start' | 'quiz'
+let quizMode   = 'traditional'  // 'traditional' | 'choice'
+let score = 0, streak = 0, asked = 0, waiting = false
+let currentFr = '', currentEn = '', currentChoices = []
 
-// ── DOM helpers ──
-const out = document.getElementById("output")
-function print(text, cls="line") {
-  const el = document.createElement("div")
-  el.className = "line " + cls
-  el.textContent = text
-  out.appendChild(el)
-  out.scrollTop = out.scrollHeight
-}
-function printEl(el) { out.appendChild(el); out.scrollTop = out.scrollHeight }
+// ── DOM refs ──
+const dynamicBody = document.getElementById('dynamicBody')
+const statusLabel = document.getElementById('statusLabel')
+const shellMode   = document.getElementById('shellMode')
+const skipBtn     = document.getElementById('skipBtn')
 
+// ══════════════════════════════════════════════════════
+// Stats
+// ══════════════════════════════════════════════════════
 function updateStats() {
-  document.getElementById("scoreEl").textContent = score
-  document.getElementById("streakEl").textContent = streak
-  document.getElementById("askedEl").textContent = asked
-  document.getElementById("accEl").textContent = asked ? Math.round(score/asked*100)+"%" : "—"
+  document.getElementById('scoreEl').textContent  = score
+  document.getElementById('streakEl').textContent = streak
+  document.getElementById('askedEl').textContent  = asked
+  document.getElementById('accEl').textContent    = asked ? Math.round(score / asked * 100) + '%' : '—'
 }
 
-// ── Quiz logic ──
+// ══════════════════════════════════════════════════════
+// START SCREEN
+// ══════════════════════════════════════════════════════
+let manifest = []           // [{file, label, count}]
+let selectedFiles = new Set()
+let selectedMode  = 'traditional'
+
+async function showStartScreen() {
+  appState = 'start'
+  shellMode.textContent = 'start'
+  skipBtn.style.display = 'none'
+  statusLabel.textContent = 'choose your options'
+
+  manifest = await QuizEngine.loadManifest('vocab/')
+  if (selectedFiles.size === 0 && manifest.length > 0) {
+    selectedFiles.add(manifest[0].file)
+  }
+
+  renderStartScreen()
+}
+
+function renderStartScreen() {
+  dynamicBody.innerHTML = ''
+  const body = document.createElement('div')
+  body.className = 'start-body'
+
+  // ── Vocab set section ──
+  const setLabel = document.createElement('div')
+  setLabel.className = 'section-label'
+  setLabel.textContent = 'vocab set'
+  body.appendChild(setLabel)
+
+  const fileList = document.createElement('div')
+  fileList.className = 'file-list'
+
+  manifest.forEach(entry => {
+    const row = buildFileRow(entry.file, entry.label, entry.count, false)
+    fileList.appendChild(row)
+  })
+
+  // "All sets" row
+  if (manifest.length > 1) {
+    const totalPairs = manifest.reduce((s, e) => s + (e.count || 0), 0)
+    const allRow = buildFileRow('__all__', 'all sets', totalPairs, true)
+    allRow.classList.add('file-all-row')
+    fileList.appendChild(allRow)
+  }
+
+  body.appendChild(fileList)
+
+  // ── Mode section ──
+  const modeLabel = document.createElement('div')
+  modeLabel.className = 'section-label'
+  modeLabel.textContent = 'mode'
+  body.appendChild(modeLabel)
+
+  const modeGrid = document.createElement('div')
+  modeGrid.className = 'mode-grid'
+
+  const modes = [
+    { id: 'traditional', name: 'traditional', desc: 'type the translation from memory' },
+    { id: 'choice',      name: 'multiple choice', desc: 'pick from four options, one correct' }
+  ]
+
+  modes.forEach(m => {
+    const card = document.createElement('div')
+    card.className = 'mode-card' + (selectedMode === m.id ? ' selected' : '')
+    card.innerHTML = `
+      <div class="mode-name">${m.name}</div>
+      <div class="mode-desc">${m.desc}</div>
+      <span class="mode-badge">${selectedMode === m.id ? 'selected' : '—'}</span>
+    `
+    card.addEventListener('click', () => {
+      selectedMode = m.id
+      renderStartScreen()
+    })
+    modeGrid.appendChild(card)
+  })
+
+  body.appendChild(modeGrid)
+
+  // ── Start button ──
+  const btn = document.createElement('button')
+  btn.className = 'start-btn'
+  const anySelected = selectedFiles.size > 0
+  btn.disabled = !anySelected
+  const totalSelected = manifest
+    .filter(e => selectedFiles.has(e.file) || selectedFiles.has('__all__'))
+    .reduce((s, e) => s + (e.count || 0), 0)
+  btn.innerHTML = `<span>start quiz</span><span>↵</span>`
+  btn.addEventListener('click', launchQuiz)
+  body.appendChild(btn)
+
+  dynamicBody.appendChild(body)
+
+  // Keyboard: Enter to start
+  document.onkeydown = e => {
+    if (appState === 'start' && e.key === 'Enter' && !btn.disabled) launchQuiz()
+  }
+
+  // Footer status
+  const count = selectedFiles.size
+  const pairs = manifest
+    .filter(e => selectedFiles.has('__all__') || selectedFiles.has(e.file))
+    .reduce((s, e) => s + (e.count || 0), 0)
+  statusLabel.textContent = count
+    ? `${count} set${count > 1 ? 's' : ''} selected · ${pairs} pairs`
+    : 'select at least one set'
+}
+
+function buildFileRow(file, label, count, isAll) {
+  const row = document.createElement('div')
+  const isSel = isAll ? selectedFiles.has('__all__') : selectedFiles.has(file)
+  row.className = 'file-row' + (isSel ? ' selected' : '')
+
+  const left = document.createElement('div')
+  left.className = 'file-row__left'
+
+  const check = document.createElement('div')
+  check.className = 'file-check'
+
+  const name = document.createElement('span')
+  name.className = 'file-name'
+  name.textContent = label
+
+  left.appendChild(check)
+  left.appendChild(name)
+
+  const cnt = document.createElement('span')
+  cnt.className = 'file-count'
+  cnt.textContent = count ? count + ' pairs' : ''
+
+  row.appendChild(left)
+  row.appendChild(cnt)
+
+  row.addEventListener('click', () => {
+    if (isAll) {
+      // Toggle all
+      if (selectedFiles.has('__all__')) {
+        selectedFiles.clear()
+      } else {
+        selectedFiles.clear()
+        selectedFiles.add('__all__')
+      }
+    } else {
+      selectedFiles.delete('__all__')
+      if (selectedFiles.has(file)) {
+        selectedFiles.delete(file)
+      } else {
+        selectedFiles.add(file)
+      }
+    }
+    renderStartScreen()
+  })
+
+  return row
+}
+
+// ══════════════════════════════════════════════════════
+// LAUNCH
+// ══════════════════════════════════════════════════════
+async function launchQuiz() {
+  statusLabel.textContent = 'loading vocab...'
+  dynamicBody.innerHTML = '<div style="padding:40px 28px;font-size:11px;color:var(--fg-20)">loading…</div>'
+
+  const files = selectedFiles.has('__all__')
+    ? manifest.map(e => e.file)
+    : manifest.filter(e => selectedFiles.has(e.file)).map(e => e.file)
+
+  try {
+    const count = await QuizEngine.loadFiles('vocab/', files)
+    statusLabel.textContent = count + ' pairs loaded'
+    quizMode = selectedMode
+    score = 0; streak = 0; asked = 0
+    updateStats()
+    showQuizScreen()
+    nextQuestion()
+  } catch (err) {
+    statusLabel.textContent = 'failed to load vocab'
+    dynamicBody.innerHTML = `<div class="output"><div class="line muted">error: ${err.message}</div></div>`
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// QUIZ SCREEN
+// ══════════════════════════════════════════════════════
+function showQuizScreen() {
+  appState = 'quiz'
+  shellMode.textContent = quizMode === 'choice' ? 'multiple choice' : 'traditional'
+
+  dynamicBody.innerHTML = ''
+
+  // Output area
+  const output = document.createElement('div')
+  output.className = 'output'
+  output.id = 'output'
+  dynamicBody.appendChild(output)
+
+  if (quizMode === 'traditional') {
+    // Input row
+    const inputRow = document.createElement('div')
+    inputRow.className = 'input-row'
+    inputRow.innerHTML = `
+      <span class="prompt-sym">›</span>
+      <input class="answer-input" id="answerInput" placeholder="type your answer…"
+             autocomplete="off" autocorrect="off" spellcheck="false" disabled/>
+    `
+    dynamicBody.appendChild(inputRow)
+    skipBtn.style.display = 'block'
+
+    setTimeout(() => {
+      const inp = document.getElementById('answerInput')
+      if (inp) inp.addEventListener('keydown', e => {
+        if (e.key === 'Enter') submitAnswer()
+        if (e.key === 'Tab') { e.preventDefault(); skipQuestion() }
+      })
+    }, 0)
+  } else {
+    // Choices grid placeholder (populated per question)
+    const grid = document.createElement('div')
+    grid.className = 'choices-grid'
+    grid.id = 'choicesGrid'
+    dynamicBody.appendChild(grid)
+    skipBtn.style.display = 'none'
+  }
+
+  print('French Vocabulary Quiz', 'muted')
+  if (quizMode === 'traditional') {
+    print('↵ submit  ·  tab to skip', 'muted')
+  } else {
+    print('1–4 or click to answer', 'muted')
+  }
+
+  // Keyboard for multiple choice
+  document.onkeydown = e => {
+    if (appState !== 'quiz') return
+    if (quizMode === 'choice') {
+      const n = parseInt(e.key)
+      if (n >= 1 && n <= 4) selectChoice(n - 1)
+    }
+  }
+}
+
+// ── Output helpers ──
+function print(text, cls = 'line') {
+  const output = document.getElementById('output')
+  if (!output) return
+  const el = document.createElement('div')
+  el.className = 'line ' + cls
+  el.textContent = text
+  output.appendChild(el)
+  output.scrollTop = output.scrollHeight
+}
+
+function printEl(el) {
+  const output = document.getElementById('output')
+  if (!output) return
+  output.appendChild(el)
+  output.scrollTop = output.scrollHeight
+}
+
+// ══════════════════════════════════════════════════════
+// QUIZ LOGIC
+// ══════════════════════════════════════════════════════
 function nextQuestion() {
   waiting = false
-  const input = document.getElementById("answerInput")
-  input.disabled = false
-  input.value = ""
-  input.focus()
 
-  const pair = QuizEngine.nextPair()
-  if (!pair) { print("no vocab loaded", "muted"); return }
-  currentFr = pair.french
-  currentEn = pair.english
+  if (quizMode === 'traditional') {
+    const input = document.getElementById('answerInput')
+    if (input) { input.disabled = false; input.value = ''; input.focus() }
+
+    const pair = QuizEngine.nextPair()
+    if (!pair) { print('no vocab loaded', 'muted'); return }
+    currentFr = pair.french
+    currentEn = pair.english
+
+  } else {
+    const q = QuizEngine.nextChoices()
+    if (!q) { print('no vocab loaded', 'muted'); return }
+    currentFr = q.french
+    currentEn = q.correct
+    currentChoices = q.choices
+    renderChoices(q.choices)
+  }
+
   asked++
   updateStats()
 
-  const meta = document.createElement("div")
-  meta.className = "q-meta"
-  meta.innerHTML = `<span class="q-num">#${String(asked).padStart(3,"0")}</span><span class="tag">fr → en</span>`
+  const meta = document.createElement('div')
+  meta.className = 'q-meta'
+  meta.innerHTML = `<span class="q-num">#${String(asked).padStart(3, '0')}</span><span class="tag">fr → en</span>`
   printEl(meta)
 
-  const q = document.createElement("div")
-  q.className = "line question"
-  q.textContent = currentFr
-  printEl(q)
+  const qEl = document.createElement('div')
+  qEl.className = 'line question'
+  qEl.textContent = currentFr
+  printEl(qEl)
 }
 
+// ── Traditional: submit ──
 function submitAnswer() {
   if (waiting) return
-  const input = document.getElementById("answerInput")
+  const input = document.getElementById('answerInput')
   const ans = input.value.trim()
   if (!ans) return
   waiting = true
   input.disabled = true
 
-  print("› " + ans, "user")
+  print('› ' + ans, 'user')
   const correct = QuizEngine.validate(ans, currentEn)
-  if (correct) { score++; streak++; print("✓  correct  —  " + currentEn, "right") }
-  else { streak = 0; print("✗  " + currentEn, "wrong") }
+  if (correct) { score++; streak++; print('✓  correct  —  ' + currentEn, 'right') }
+  else { streak = 0; print('✗  ' + currentEn, 'wrong') }
   updateStats()
   setTimeout(nextQuestion, 1000)
 }
 
+// ── Traditional: skip ──
 function skipQuestion() {
-  if (waiting) return
+  if (waiting || appState !== 'quiz') return
   waiting = true
   streak = 0
-  document.getElementById("answerInput").disabled = true
-  print("› —  skipped  —  " + currentEn, "muted")
+  const input = document.getElementById('answerInput')
+  if (input) input.disabled = true
+  print('› —  skipped  —  ' + currentEn, 'muted')
   updateStats()
   setTimeout(nextQuestion, 700)
 }
 
-// ── Theme ──
-function toggleTheme() {
-  const html = document.documentElement
-  const next = html.getAttribute("data-theme") === "dark" ? "light" : "dark"
-  html.setAttribute("data-theme", next)
-  document.getElementById("themeColor").content = next === "dark" ? "#0a0a0a" : "#f5f4f0"
-  localStorage.setItem("theme", next)
+// ── Multiple choice: render ──
+function renderChoices(choices) {
+  const grid = document.getElementById('choicesGrid')
+  if (!grid) return
+  grid.innerHTML = ''
+  const keys = ['1', '2', '3', '4']
+  choices.forEach((choice, i) => {
+    const btn = document.createElement('button')
+    btn.className = 'choice-btn'
+    btn.dataset.index = i
+    btn.innerHTML = `<span class="choice-key">${keys[i]}</span>${choice}`
+    btn.addEventListener('click', () => selectChoice(i))
+    grid.appendChild(btn)
+  })
 }
 
-// Restore saved theme
-const saved = localStorage.getItem("theme")
-if (saved) document.documentElement.setAttribute("data-theme", saved)
+// ── Multiple choice: answer ──
+function selectChoice(idx) {
+  if (waiting) return
+  const grid = document.getElementById('choicesGrid')
+  if (!grid) return
+  const btns = grid.querySelectorAll('.choice-btn')
+  if (idx >= btns.length) return
+  waiting = true
 
-// ── Init ──
-print("French Vocabulary Quiz", "muted")
-print("↵ submit  ·  tab to skip", "muted")
+  const chosen = currentChoices[idx]
+  const correct = chosen === currentEn
 
-document.getElementById("answerInput").addEventListener("keydown", e => {
-  if (e.key === "Enter") submitAnswer()
-  if (e.key === "Tab") { e.preventDefault(); skipQuestion() }
-})
+  // Disable all, mark result
+  btns.forEach((btn, i) => {
+    btn.disabled = true
+    if (currentChoices[i] === currentEn) {
+      btn.classList.add(correct && i === idx ? 'correct' : 'reveal-correct')
+    } else if (i === idx) {
+      btn.classList.add('wrong')
+    }
+  })
 
-QuizEngine.loadAll("vocab/").then(count => {
-  document.getElementById("statusLabel").textContent = count + " pairs loaded"
-  nextQuestion()
-}).catch(err => {
-  document.getElementById("statusLabel").textContent = "failed to load vocab"
-  print("error: " + err.message, "muted")
+  if (correct) { score++; streak++; print('✓  correct  —  ' + currentEn, 'right') }
+  else { streak = 0; print('✗  ' + currentEn, 'wrong') }
+  updateStats()
+  setTimeout(nextQuestion, 1200)
+}
+
+// ══════════════════════════════════════════════════════
+// THEME
+// ══════════════════════════════════════════════════════
+function toggleTheme() {
+  const html = document.documentElement
+  const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
+  html.setAttribute('data-theme', next)
+  document.getElementById('themeColor').content = next === 'dark' ? '#0a0a0a' : '#f5f4f0'
+  localStorage.setItem('theme', next)
+}
+const saved = localStorage.getItem('theme')
+if (saved) document.documentElement.setAttribute('data-theme', saved)
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+showStartScreen().catch(err => {
+  statusLabel.textContent = 'failed to load manifest'
+  dynamicBody.innerHTML = `<div style="padding:28px;font-size:11px;color:var(--fg-20)">error: ${err.message}</div>`
 })
 
 // ── Service worker ──
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js")
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
 }
 </script>
 </body>

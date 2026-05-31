@@ -3,13 +3,14 @@
 // Caches app shell + all vocab files for offline use
 // ─────────────────────────────────────────────
 
-const CACHE = "quiz-v1"
+const CACHE = "quiz-v2"
 
 const APP_SHELL = [
     "/",
     "/index.html",
     "/quiz.js",
-    "/manifest.json"
+    "/manifest.json",
+    "/vocab/index.txt"
 ]
 
 // On install: cache app shell

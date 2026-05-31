@@ -3,7 +3,7 @@
 // ─────────────────────────────────────────────
 
 const QuizEngine = (() => {
-    let vocabList = []
+    let vocabList = []   // flat [fr, en, fr, en, …]
     let lastIndex = -1
 
     // ── Loading ───────────────────────────────
@@ -18,17 +18,32 @@ const QuizEngine = (() => {
         const lines = text.split("\n")
             .map(l => l.trim())
             .filter(l => l.length > 0)
-        // Skip one header line (matches your file format)
+        // Skip one header line (matches file format: "Vocab X.X")
         return lines.length > 1 ? lines.slice(1) : lines
     }
 
-    async function loadAll(vocabDir) {
-        vocabList = []
-        const indexText = await fetchText(`${vocabDir}index.txt`)
-        const files = indexText.split("\n")
+    // Load a manifest from vocabDir/index.txt.
+    // Each line: filename|label|pairCount   (or bare filename for back-compat)
+    async function loadManifest(vocabDir) {
+        const text = await fetchText(`${vocabDir}index.txt`)
+        return text.split("\n")
             .map(l => l.trim())
-            .filter(l => l.length > 0 && l !== "index.txt")
+            .filter(l => l.length > 0 && !l.startsWith("#"))
+            .map(l => {
+                const parts = l.split("|")
+                return {
+                    file:  parts[0].trim(),
+                    label: parts[1] ? parts[1].trim() : parts[0].trim(),
+                    count: parts[2] ? parseInt(parts[2], 10) : null
+                }
+            })
+            .filter(e => e.file !== "index.txt")
+    }
 
+    // Load specific files (array of filenames) from vocabDir.
+    async function loadFiles(vocabDir, files) {
+        vocabList = []
+        lastIndex = -1
         await Promise.all(files.map(async file => {
             try {
                 const text = await fetchText(`${vocabDir}${file}`)
@@ -38,8 +53,13 @@ const QuizEngine = (() => {
                 console.warn(`Skipping ${file}: ${e.message}`)
             }
         }))
-
         return Math.floor(vocabList.length / 2)
+    }
+
+    // Legacy helper: load everything in the directory (reads all files in manifest)
+    async function loadAll(vocabDir) {
+        const manifest = await loadManifest(vocabDir)
+        return loadFiles(vocabDir, manifest.map(e => e.file))
     }
 
     // ── Picking ───────────────────────────────
@@ -48,12 +68,44 @@ const QuizEngine = (() => {
         if (vocabList.length < 2) return null
         let r, attempts = 0
         do {
-            r = Math.floor(Math.random() * vocabList.length)
-            if (r % 2 === 0) r = Math.min(r + 1, vocabList.length - 1)
+            r = Math.floor(Math.random() * Math.floor(vocabList.length / 2)) * 2 + 1
             attempts++
         } while (r === lastIndex && attempts < 20)
         lastIndex = r
         return { french: vocabList[r - 1], english: vocabList[r] }
+    }
+
+    // Return a question with 4 shuffled choices for multiple-choice mode.
+    // { french, correct, choices: [string × 4] }
+    function nextChoices() {
+        const pair = nextPair()
+        if (!pair) return null
+
+        // Pool of all English answers except the correct one
+        const pool = []
+        for (let i = 1; i < vocabList.length; i += 2) {
+            if (vocabList[i] !== pair.english) pool.push(vocabList[i])
+        }
+
+        // Pick 3 random distractors (no duplicates)
+        const distractors = []
+        const seen = new Set()
+        let attempts = 0
+        while (distractors.length < 3 && pool.length > 0 && attempts < 100) {
+            const idx = Math.floor(Math.random() * pool.length)
+            const val = pool[idx]
+            if (!seen.has(val)) { seen.add(val); distractors.push(val) }
+            attempts++
+        }
+
+        // Shuffle correct answer in
+        const choices = [pair.english, ...distractors]
+        for (let i = choices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [choices[i], choices[j]] = [choices[j], choices[i]]
+        }
+
+        return { french: pair.french, correct: pair.english, choices }
     }
 
     // ── Validation ────────────────────────────
@@ -102,5 +154,13 @@ const QuizEngine = (() => {
         return Math.round(jaro(us, cs) * 100) > 80
     }
 
-    return { loadAll, nextPair, validate, vocabCount: () => Math.floor(vocabList.length / 2) }
+    return {
+        loadManifest,
+        loadFiles,
+        loadAll,
+        nextPair,
+        nextChoices,
+        validate,
+        vocabCount: () => Math.floor(vocabList.length / 2)
+    }
 })()
