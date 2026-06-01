@@ -22,7 +22,7 @@ export const projects = [
     tags:        ['JavaScript', 'WebApp'],
     year:        '2026',
     image:       'https://felix-graham.github.io/Portfolio/projects/jsCurrencyConverter/demo.png',
-    description: 'A JavaScript focused WebApp using APIs to convert currencies. A simple project to demonstrate the use of APIs in JavaScript',
+    description: 'A JavaScript focused WebApp using APIs to convert currencies. A simple project to demonstrate the use of APIs in JavaScript. I used this as an introductory lesson to teach myself web technologies with scripting.',
     links: [
       { label: 'Live demo', icon: 'external-link', href: 'https://felix-graham.github.io/Portfolio/projects/jsCurrencyConverter/' },
       { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/Portfolio/tree/main/projects/jsCurrencyConverter' },
