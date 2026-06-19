@@ -29,6 +29,15 @@ export const projects = [
     ],
   },
 
-
-
+  {
+    title:       'Monte Carlo Stock Simulation',
+    sub:         'A rudimentary Monte Carlo Stock Simulation in Python',
+    tags:        ['Python', 'Simulation'],
+    year:        '2026',
+    image:       'https://felix-graham.github.io/Portfolio/projects/stockPredictionModel/demo.png',
+    description: 'A Python script using Numpy, Matplotlib and Requests to show 500 possible futures for a stock. A mean average line is then drawn on the graph to show a blend of the results. Whilst this looks very helpful, it is lacking in accuracy due to the stochastic nature of the results.',
+    links: [
+      
+    ],
+  },
 ];
