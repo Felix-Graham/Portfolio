@@ -22,16 +22,54 @@
 </head>
 <body>
 
-  <!-- Nav (rendered by main.js) -->
+  <!-- Nav -->
   <header>
-    <nav class="nav"></nav>
+    <nav class="nav">
+      <div class="nav__left">
+        <ul class="nav__links">
+          <li><a href="#work">Work</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="mailto:felix_graham24@outlook.com">Contact</a></li>
+        </ul>
+      </div>
+      <div class="nav__right">
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle light/dark mode">
+          <span class="icon-sun" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2"  x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.22" y1="4.22"  x2="7.05" y2="7.05"/><line x1="16.95" y1="16.95" x2="19.78" y2="19.78"/><line x1="2" y1="12"  x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="7.05" y2="16.95"/><line x1="16.95" y1="7.05"  x2="19.78" y2="4.22"/></svg>
+          </span>
+          <span class="icon-moon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </span>
+        </button>
+      </div>
+    </nav>
   </header>
 
   <main>
-    <!-- Hero (rendered by main.js) -->
-    <section class="hero" id="about"></section>
+    <!-- Hero -->
+    <section class="hero" id="about">
+      <p class="hero__name">Felix Graham</p>
+      <p class="hero__eyebrow">A Level Computer Science Student — Brighton, UK</p>
+      <div class="hero__learning">
+        <span class="hero__learning-label">Currently learning: </span>
+        <span class="hero__learning-items">{ "Rust"  "Node JS"  "QML"  }</span>
+      </div>
+      <h1 class="hero__headline">
+        <span>I use</span><br>
+        <span><em> language, software & hardware </em></span><br>
+        <span>with efficiency.</span>
+      </h1>
+      <p class="hero__bio">
+      I am an A Level students based in Brighton, passionate about Linux and all things open source.
+      I would be extremely grateul for any form of internship or work experience to expand my knowledge and abilities. 
+      </p>
+      <div class="hero__status">
+        <span class="status-dot"></span>
+        Available for internships
+      </div>
+    </section>
 
-    <!-- Projects (rendered by main.js) -->
+    <!-- Projects (list rendered by main.js, header labels are static) -->
     <section id="work">
       <div class="projects__header">
         <span class="label">Selected work</span>
@@ -41,8 +79,15 @@
     </section>
   </main>
 
-  <!-- Footer (rendered by main.js) -->
-  <footer class="footer"></footer>
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="footer__copy">© 2026</span>
+    <div class="footer__links">
+      <a href="https://github.com/Felix-Graham" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/felix-graham-b3b4b3398" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:felix_graham24@outlook.com">Email</a>
+    </div>
+  </footer>
 
   <!-- Entry point — type="module" enables ES module imports -->
   <script type="module" src="./main.js"></script>
