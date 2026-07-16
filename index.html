@@ -28,7 +28,7 @@
       <div class="nav__left">
         <ul class="nav__links">
           <li><a href="#work">Work</a></li>
-          <li><a href="#about">About</a></li>
+          <li><a href="./about.html">About</a></li>
           <li><a href="mailto:felix_graham24@outlook.com">Contact</a></li>
         </ul>
       </div>
@@ -47,7 +47,8 @@
 
   <main>
     <!-- Hero -->
-    <section class="hero" id="about">
+    <section class="hero">
+      <div class="hero__glyphs" aria-hidden="true"></div>
       <p class="hero__name">Felix Graham</p>
       <p class="hero__eyebrow">A Level Computer Science Student — Brighton, UK</p>
       <div class="hero__learning">
@@ -56,18 +57,25 @@
       </div>
       <h1 class="hero__headline">
         <span>I use</span><br>
-        <span><em> language, software & hardware </em></span><br>
+        <span><em> language, software &amp; hardware </em></span><br>
         <span>with efficiency.</span>
       </h1>
-      <p class="hero__bio">
-      I am an A Level students based in Brighton, passionate about Linux and all things open source.
-      I would be extremely grateul for any form of internship or work experience to expand my knowledge and abilities. 
-      </p>
+      <p class="hero__bio">I am an A Level student based in Brighton, passionate about Linux and all things open source. I would be extremely grateful for any form of internship or work experience to expand my knowledge and abilities.</p>
       <div class="hero__status">
         <span class="status-dot"></span>
         Available for internships
       </div>
     </section>
+
+    <!-- Bridge — connects the hero's availability status through to the projects list, links out to the About page -->
+    <div class="bridge">
+      <a href="./about.html" class="bridge__link">
+        <span class="bridge__label">More about me</span>
+        <span class="bridge__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+      </a>
+    </div>
 
     <!-- Projects (list rendered by main.js, header labels are static) -->
     <section id="work">

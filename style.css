@@ -3,7 +3,7 @@
    Nothing-inspired monochrome minimal
    ───────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,wght@1,300;1,400&display=swap');
 
 /* ── Design tokens ── */
 :root {
@@ -25,6 +25,9 @@
   --toggle-hover: rgba(240,240,240,0.12);
   --ease-out:     cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --duration:     0.38s;
+  --font-mono:    'DM Mono', monospace;
+  --font-serif:   'Fraunces', serif;
+  --font-sans:    -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
 [data-theme="light"] {
@@ -53,6 +56,11 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
 
 body {
@@ -143,11 +151,85 @@ body::before {
 [data-theme="light"] .icon-sun  { display: block; }
 [data-theme="light"] .icon-moon { display: none; }
 
+/* ── Falling glyphs ── */
+.fall-glyph {
+  position: absolute;
+  top: -20px;
+  font-size: 11px;
+  color: var(--fg-10);
+  animation: fallDrift linear forwards;
+  pointer-events: none;
+}
+
+@keyframes fallDrift {
+  to { transform: translateY(120vh); opacity: 0; }
+}
+
+.hero__glyphs,
+.about-section__glyphs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* ── Hero ── */
 .hero {
+  position: relative;
+  overflow: hidden;
   padding: 80px 40px 68px;
   border-bottom: 0.5px solid var(--border);
   transition: border-color var(--duration) var(--ease-out);
+}
+
+.hero > *:not(.hero__glyphs) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Bridge — connects hero to projects, links to About ── */
+.bridge {
+  display: flex;
+  justify-content: center;
+  padding: 28px 40px;
+  border-bottom: 0.5px solid var(--border);
+  transition: border-color var(--duration) var(--ease-out);
+}
+
+.bridge__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-35);
+  text-decoration: none;
+  padding: 10px 18px;
+  border: 0.5px solid var(--border);
+  border-radius: 999px;
+  transition: color 0.18s, border-color 0.18s, background 0.18s, gap 0.25s var(--ease-out);
+}
+.bridge__link:hover {
+  color: var(--fg);
+  border-color: var(--fg-20);
+  background: var(--fg-04);
+  gap: 16px;
+}
+
+.bridge__arrow svg {
+  width: 13px;
+  height: 13px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.25s var(--ease-out);
+}
+.bridge__link:hover .bridge__arrow svg {
+  transform: translateX(3px);
 }
 
 .hero__eyebrow {
@@ -478,6 +560,7 @@ body::before {
   .hero        { padding: 52px 20px 48px; }
   .projects__header,
   .project__summary { padding-left: 20px; padding-right: 20px; }
+  .bridge      { padding: 22px 20px; }
   .project__body    { grid-template-columns: 1fr; }
   .project__image-col { border-right: none; border-bottom: 0.5px solid var(--border-soft); min-height: 200px; }
   .project__text-col  { padding: 24px 20px; }
@@ -507,4 +590,355 @@ body::before {
   letter-spacing: 0.04em;
   color: var(--fg-35);
   transition: color var(--duration) var(--ease-out);
+}
+
+/* ─────────────────────────────────────────────
+   ABOUT PAGE
+   Sticky-stacked sections: each section is a tall
+   wrapper (--scroll-height) whose inner content is
+   position:sticky. As you scroll, the next section's
+   wrapper — sitting higher in --stack-index and with
+   an opaque background — slides up and covers the one
+   currently pinned, creating a stacked, video-like
+   reveal with no scroll-jacking JS required.
+   ───────────────────────────────────────────── */
+
+/* ── Index nav ── */
+.about-index {
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  display: flex;
+  gap: 28px;
+  padding: 16px 40px;
+  background: var(--bg);
+  border-bottom: 0.5px solid var(--border);
+  overflow-x: auto;
+  transition: background var(--duration) var(--ease-out), border-color var(--duration) var(--ease-out);
+}
+
+.about-index a {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-35);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.18s;
+}
+.about-index a:hover     { color: var(--fg-60); }
+.about-index a.is-active { color: var(--fg); }
+
+/* ── Section stack ── */
+.about-sections {
+  position: relative;
+}
+
+.about-section {
+  position: relative;
+  height: var(--scroll-height, 150vh);
+}
+
+.about-section__sticky {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  z-index: var(--stack-index, 1);
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px;
+  background: var(--bg);
+  border-top: 0.5px solid var(--border);
+  overflow: hidden;
+  transition: background var(--duration) var(--ease-out), border-color var(--duration) var(--ease-out);
+}
+
+/* Layout modes — chosen per section in about.js based on which
+   sides actually have images. The center text column's track grows
+   whenever a side is missing, so text visibly fills the freed space
+   instead of leaving a gap. justify-content:center keeps the whole
+   group centered in the modes that don't use edge-pinning 1fr tracks. */
+.about-section__sticky--both {
+  grid-template-columns: 1fr minmax(280px, 480px) 1fr;
+}
+.about-section__sticky--left {
+  grid-template-columns: minmax(200px, 320px) minmax(340px, 640px);
+}
+.about-section__sticky--right {
+  grid-template-columns: minmax(340px, 640px) minmax(200px, 320px);
+}
+.about-section__sticky--none {
+  grid-template-columns: minmax(320px, 680px);
+}
+
+/* ── Image columns ── */
+.about-section__col--left,
+.about-section__col--right {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.about-section__col--left  { align-items: flex-end; }
+.about-section__col--right { align-items: flex-start; }
+
+.about-image {
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%) contrast(1.06);
+  border: 0.5px solid var(--border-soft);
+  transition: border-color var(--duration) var(--ease-out);
+}
+
+.about-image--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-2);
+  color: var(--fg-20);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 12px;
+  transition: background var(--duration) var(--ease-out);
+}
+
+/* ── Central text column ── */
+.about-section__col--center {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.about-section__eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-20);
+  margin-bottom: 16px;
+}
+
+.about-section__heading {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--fg);
+  margin-bottom: 20px;
+  transition: color var(--duration) var(--ease-out);
+}
+
+.about-section__body {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--fg-50);
+}
+
+/* ── Dropdown ── */
+.about-dropdown__toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 28px;
+  padding: 0;
+  padding-top: 16px;
+  border: none;
+  border-top: 0.5px solid var(--border);
+  background: none;
+  color: var(--fg-50);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.18s, border-color var(--duration) var(--ease-out);
+}
+.about-dropdown__toggle:hover { color: var(--fg); }
+
+.chevron-wrap svg {
+  width: 13px;
+  height: 13px;
+  stroke: var(--fg-20);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.32s var(--ease-out), stroke 0.18s;
+}
+.about-dropdown__toggle[aria-expanded="true"] .chevron-wrap svg {
+  transform: rotate(180deg);
+  stroke: var(--fg-50);
+}
+
+.about-dropdown__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.44s var(--ease-out);
+  overflow: hidden;
+}
+.about-dropdown__panel.is-open { grid-template-rows: 1fr; }
+.about-dropdown__inner { min-height: 0; overflow: hidden; }
+
+/* Dropdown text renders in the contrasting serif for visual distinction */
+.about-dropdown__text {
+  padding-top: 18px;
+  line-height: 1.9;
+  color: var(--fg-60);
+}
+.about-dropdown__text--serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 18px;
+}
+.about-dropdown__text--mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.about-dropdown__gallery {
+  display: flex;
+  gap: 12px;
+  padding-top: 18px;
+  overflow-x: auto;
+}
+.about-dropdown__gallery .about-image { max-width: 150px; flex-shrink: 0; }
+
+/* Timeline dropdown — vertical line + dot markers, most-recent-3 only */
+.about-dropdown__timeline {
+  position: relative;
+  list-style: none;
+  padding-top: 22px;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.about-dropdown__timeline::before {
+  content: '';
+  position: absolute;
+  top: 26px;
+  bottom: 6px;
+  left: 4px;
+  width: 0.5px;
+  background: var(--border);
+}
+.about-dropdown__timeline-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.about-dropdown__timeline-item::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: -22px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--fg-35);
+}
+.about-dropdown__timeline-date {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-20);
+}
+.about-dropdown__timeline-title {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--fg-60);
+}
+.about-dropdown__timeline--serif .about-dropdown__timeline-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 16px;
+}
+.about-dropdown__timeline--sans .about-dropdown__timeline-title {
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+.about-dropdown__timeline--sans-serif .about-dropdown__timeline-title {
+  font-family: var(--font-sans);
+  font-size: 13px;
+}
+
+/* Timeline "+N more" toggle — reveals items beyond `limit` in place */
+.about-dropdown__timeline-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  margin-left: 22px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--fg-35);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.18s;
+}
+.about-dropdown__timeline-more:hover { color: var(--fg-60); }
+
+.about-dropdown__timeline-more .chevron-wrap svg {
+  width: 11px;
+  height: 11px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.3s var(--ease-out);
+}
+.about-dropdown__timeline-more[aria-expanded="true"] .chevron-wrap svg {
+  transform: rotate(180deg);
+}
+
+.about-dropdown__timeline-more-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease-out);
+  overflow: hidden;
+}
+.about-dropdown__timeline-more-panel.is-open { grid-template-rows: 1fr; }
+.about-dropdown__timeline-more-inner { min-height: 0; overflow: hidden; }
+.about-dropdown__timeline-more-inner .about-dropdown__timeline { padding-top: 14px; }
+
+/* ── Responsive ── */
+@media (max-width: 780px) {
+  .about-index { padding: 14px 20px; gap: 20px; }
+
+  .about-section__sticky {
+    grid-template-columns: 1fr;
+    padding: 100px 20px 32px;
+    gap: 20px;
+  }
+
+  .about-section__col--left,
+  .about-section__col--right {
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+  }
+
+  .about-section__col--left  { order: 2; }
+  .about-section__col--center { order: 1; margin: 0; max-width: none; }
+  .about-section__col--right { order: 3; }
+
+  .about-image { max-width: 140px; flex-shrink: 0; }
 }

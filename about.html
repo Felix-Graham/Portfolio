@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>About — Felix Graham</title>
+  <meta name="description" content="A closer look at Felix Graham — background, tools, and interests.">
+  <meta name="author" content="Felix Graham">
+
+  <meta property="og:title"       content="About — Felix Graham">
+  <meta property="og:description" content="A closer look at Felix Graham — background, tools, and interests.">
+  <meta property="og:type"        content="website">
+  <meta property="og:image" content="https://felix-graham.github.io/Portfolio/assets/og.png">
+
+  <link rel="icon" href="https://felix-graham.github.io/Portfolio/assets/favicon.svg" type="image/svg+xml">
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <header>
+    <nav class="nav">
+      <div class="nav__left">
+        <ul class="nav__links">
+          <li><a href="./index.html#work">Work</a></li>
+          <li><a href="./about.html" aria-current="page">About</a></li>
+          <li><a href="mailto:felix_graham24@outlook.com">Contact</a></li>
+        </ul>
+      </div>
+      <div class="nav__right">
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle light/dark mode">
+          <span class="icon-sun" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2"  x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.22" y1="4.22"  x2="7.05" y2="7.05"/><line x1="16.95" y1="16.95" x2="19.78" y2="19.78"/><line x1="2" y1="12"  x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="7.05" y2="16.95"/><line x1="16.95" y1="7.05"  x2="19.78" y2="4.22"/></svg>
+          </span>
+          <span class="icon-moon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Short index — populated from data/about.js, JS wires up scroll-spy -->
+  <nav class="about-index" id="aboutIndex" aria-label="Page sections"></nav>
+
+  <!-- Sections populated from data/about.js -->
+  <main class="about-sections" id="aboutSections"></main>
+
+  <footer class="footer">
+    <span class="footer__copy">© 2026</span>
+    <div class="footer__links">
+      <a href="https://github.com/Felix-Graham" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/felix-graham-b3b4b3398" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:felix_graham24@outlook.com">Email</a>
+    </div>
+  </footer>
+
+  <script type="module" src="./about.js"></script>
+
+</body>
+</html>

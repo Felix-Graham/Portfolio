@@ -7,6 +7,7 @@
 // ─────────────────────────────────────────────
 
 import { projects } from './data/projects.js';
+import { initFallingGlyphs } from './effects.js';
 
 // ── SVG icon library (only icons still needed by JS-rendered markup) ──
 const icons = {
@@ -136,7 +137,13 @@ function renderProjects() {
   });
 }
 
+function initHeroGlyphs() {
+  const layer = document.querySelector('.hero__glyphs');
+  initFallingGlyphs(layer);
+}
+
 // ── Boot ──────────────────────────────────────
 initTheme();
 wireThemeButton();
 renderProjects();
+initHeroGlyphs();
