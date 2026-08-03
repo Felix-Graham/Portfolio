@@ -593,6 +593,90 @@ body::before {
 }
 
 /* ─────────────────────────────────────────────
+   ABOUT THIS PAGE (index.html section)
+   Static section, same header/body rhythm as the
+   projects list above it — no JS rendering.
+   ───────────────────────────────────────────── */
+.about-page {
+  border-bottom: 0.5px solid var(--border);
+  transition: border-color var(--duration) var(--ease-out);
+}
+
+.about-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 18px 40px;
+  border-bottom: 0.5px solid var(--border);
+  transition: border-color var(--duration) var(--ease-out);
+}
+
+.about-page__body {
+  padding: 48px 40px 64px;
+  max-width: 720px;
+}
+
+.about-page__heading {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--fg);
+  margin-bottom: 20px;
+  transition: color var(--duration) var(--ease-out);
+}
+
+.about-page__text {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--fg-50);
+  max-width: 520px;
+  margin-bottom: 40px;
+}
+
+.about-page__points {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px 40px;
+  list-style: none;
+}
+
+.about-page__point {
+  padding-top: 16px;
+  border-top: 0.5px solid var(--border-soft);
+  transition: border-color var(--duration) var(--ease-out);
+}
+
+.about-page__point-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-20);
+  margin-bottom: 10px;
+}
+
+.about-page__point-text {
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--fg-50);
+}
+
+@media (max-width: 680px) {
+  .about-page__header,
+  .about-page__body {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .about-page__points {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* ─────────────────────────────────────────────
    ABOUT PAGE
    Sticky-stacked sections: each section is a tall
    wrapper (--scroll-height) whose inner content is
