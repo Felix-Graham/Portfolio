@@ -61,7 +61,7 @@ export const aboutPage = {
       id:      'path',
       eyebrow: '03  — Path',
       heading: 'How I got here',
-      body:    'I first began coding with Python in my GCSE Computer Science course, making simple text adventures and calculators. I often spent time after school in the library with access to a computer which I lacked at home. Here I learnt about additional modules for Python such as Tkinter and Numpy. I then started saving up for my own computer, which I built at home. I decided that my first OS would be Linux based and so, with the relevant research, fired up Linux Mint Cinnamon. From here I taught myself the basics of Bash scripting and spent 6 months ricing my environment.',
+      body:    'I first began coding with Python in my GCSE Computer Science course, making simple text adventures and calculators. I often spent time after school in the library with access to a computer which I lacked at home. Here I learnt about additional modules for Python such as Tkinter and Numpy. I then started saving up for my own computer through kitchen work and gardening, which I built at home. I decided that my first OS would be Linux based and so, with the relevant research, fired up Linux Mint Cinnamon. From here I taught myself the basics of Bash scripting and spent 6 months ricing my environment.',
       images: { left: [], right: [] },
       dropdown: {
         label: 'Path',
@@ -105,6 +105,11 @@ export const aboutPage = {
         // here without cluttering the page.
         limit: 3,
         items: [
+          { date: '09-2026', title: 'Galactic Algorithms' },
+          { date: '09-2026', title: 'Bra and Ket Notation' },
+          { date: '08-2026', title: 'The Yongle Emperor' },
+          { date: '08-2026', title: 'Cyclic Group' },
+          { date: '08-2026', title: 'Howitz Zeta Function' },
           { date: '07-2026', title: 'Qiskit\'s use cases at IBM' },
           { date: '03-2026', title: 'The Kalevala and Finnish mythology' },
           // { date: '09-2025 -- 06-2026', title: 'Example: a role or placement, shown as a period' },
