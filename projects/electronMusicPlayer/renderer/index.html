@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>minimal-player</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <div id="ring-stack">
+      <canvas id="visualizer" width="360" height="360"></canvas>
+      <div id="album-art">
+        <img id="album-art-img" src="../assets/fallback-art.png" alt="" />
+      </div>
+    </div>
+
+    <div id="controls">
+      <button id="btn-previous" class="ctrl-btn" title="Previous">
+        <svg viewBox="0 0 24 24"><path d="M6 4h2v16H6zM10 12l10-8v16z"/></svg>
+      </button>
+      <button id="btn-play-pause" class="ctrl-btn ctrl-btn--main" title="Play/Pause">
+        <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="icon-pause" viewBox="0 0 24 24" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+      </button>
+      <button id="btn-next" class="ctrl-btn" title="Next">
+        <svg viewBox="0 0 24 24"><path d="M16 4h2v16h-2zM4 4l10 8-10 8z"/></svg>
+      </button>
+    </div>
+
+    <div id="track-info">
+      <div id="track-title">No player detected</div>
+      <div id="track-artist">Play something to get started</div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

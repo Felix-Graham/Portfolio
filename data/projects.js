@@ -40,4 +40,17 @@ export const projects = [
       
     ],
   },
+
+  {
+    title:       'Electron App Music Player',
+    sub:         'A Simple Electron App using Mpris and Playerctl to Display the Current Song',
+    tags:        ['NodeJS', 'Playerctl'],
+    year:        '2026',
+    image:       'https://felix-graham.github.io/Portfolio/projects/electronMusicPlayer/demo.png',
+    description: 'A very basic NodeJS project to show the current song being played in a music player. It also has Cava integration to pleasantly visualise the music. Whilst I have enjoyed using Electron through NodeJS, I can appreciate its innefficiency. I would like to learn faster methods in the future.',
+    links: [
+      { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/Portfolio/tree/main/projects/electronMusicPlayer' },     
+    ],
+  },
+
 ];
