@@ -61,7 +61,7 @@ export const projects = [
     image:       null,
     description: 'I made this shell script after realising that almost everytime I created a new directory, I would have to spend precious secounds entering it. The script itself is unbeleivably basic (4 lines excluding comments), but that wasn\'t the real challenge. For it to be functional I had to link it to a real command which was a completely new concept to me. This was made harder by the fact that I main NixOS on my laptop, where I carry out most of my work. To get this to work I had to learn to use my home.nix file to link shell scripts to commands. Once it was done I had learnt far more of how my system works and how to use it.',
     links: [
-      { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/Portfolio/tree/main/projects/betterMkdir' },     
+      { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/Portfolio/tree/main/projects/mkcdir' },     
     ],
   },
 ];
