@@ -105,6 +105,11 @@ export const aboutPage = {
         // here without cluttering the page.
         limit: 3,
         items: [
+          { date: '09-2026', title: 'SHA-256' },
+          { date: '09-2026', title: 'Rule 30' },
+          { date: '09-2026', title: 'Cellular Automaton' },
+          { date: '09-2026', title: 'Skateboarding Ban In Norway' },
+          { date: '09-2026', title: 'Vamos Matroid' },
           { date: '09-2026', title: 'Galactic Algorithms' },
           { date: '09-2026', title: 'Bra and Ket Notation' },
           { date: '08-2026', title: 'The Yongle Emperor' },
