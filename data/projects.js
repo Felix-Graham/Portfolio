@@ -64,4 +64,17 @@ export const projects = [
       { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/Portfolio/tree/main/projects/mkcdir' },     
     ],
   },
+
+  {
+    title:       'Wolfram Rule 30 Simulation',
+    sub:         'Small Python+Pygame Program To Simulate The Wolfram Rule 30 Cellular Automata',
+    tags:        ['Bash', 'Nix'],
+    year:        '2026',
+    image:       'https://felix-graham.github.io/Portfolio/projects/rule30/demo.png',
+    description:"This was a small Python project which I decided to create after reading several articles on Wikipedia and more about cellular automata. I had never used Pygame before this, so it was an opportunity to learn how. The rule works by finding the binary value of a cell with {p xor (q or r)}, where q is the cell, and p and r are the cells to the immediate left and right respectively. The resulting pattern is famously complex for such a simple idea which is what initially intrigued me. I have enjoyed exploring this region linking both Computer Science and Mathematics.",
+    links: [
+      { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/Portfolio/tree/main/projects/rule30' },     
+    ],
+  },
+
 ];
