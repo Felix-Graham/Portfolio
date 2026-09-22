@@ -4,6 +4,18 @@
 
 export const projects = [
   {
+    title:       'Revise App',
+    sub:         'A Very Useful Rust App Built With EGUI For Full System Integration',
+    tags:        ['Rust', 'Wayland Compositor'],
+    year:        '2026',
+    image:       'https://felix-graham.github.io/Portfolio/projects/reviseApp/demo.png',
+    description: 'Contrary to many of my other projects, this was almost fully vibe coded with a little bit of human debugging. Although I am learning Rust, I wasn\'t confident enough to build this monolithic desktop application, hence my usage of LLMs. The app holds a host of features such as an interactive calendar, to do list with repeating events as an option, as well as basic revision tools such as flashcards, a pomodoro timer and habit tracker. The main challenged which I faced was It\'s system deployment. Because I was using an older version of Egui, my compositor session would struggle with displaying it due to the Glutin based backend. Having moved on from that, it is fully a part of my Hyprland environment, with notifications togglable between Hyprctl and Caelestia.',
+    links: [
+      { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/Portfolio/tree/main/projects/reviseApp' },     
+    ],
+  },
+
+  {
     title:       'French Quiz',
     sub:         'Python Based French Vocab Quiz',
     tags:        ['Python', 'Educational'],
@@ -68,7 +80,7 @@ export const projects = [
   {
     title:       'Wolfram Rule 30 Simulation',
     sub:         'Small Python+Pygame Program To Simulate The Wolfram Rule 30 Cellular Automata',
-    tags:        ['Bash', 'Nix'],
+    tags:        ['Python', 'Mathematics'],
     year:        '2026',
     image:       'https://felix-graham.github.io/Portfolio/projects/rule30/demo.png',
     description:"This was a small Python project which I decided to create after reading several articles on Wikipedia and more about cellular automata. I had never used Pygame before this, so it was an opportunity to learn how. The rule works by finding the binary value of a cell with {p xor (q or r)}, where q is the cell, and p and r are the cells to the immediate left and right respectively. The resulting pattern is famously complex for such a simple idea which is what initially intrigued me. I have enjoyed exploring this region linking both Computer Science and Mathematics.",

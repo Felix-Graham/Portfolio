@@ -1,0 +1,16 @@
+[Unit]
+Description=Revise background reminder daemon
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+# Adjust to a full path if `revise-reminderd` isn't on the PATH this
+# unit runs with — see packaging/README.md's "Installing `revise` as
+# a real command" section, or use the homeManagerModules.default
+# module's `programs.revise.reminderDaemon.enable`, which fills in
+# the correct store path automatically.
+ExecStart=revise-reminderd
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

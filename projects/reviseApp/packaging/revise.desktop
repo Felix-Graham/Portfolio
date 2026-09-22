@@ -1,0 +1,17 @@
+# This is a template. `packaging/install.sh` generates a working
+# version of this file automatically (with an absolute Exec= path, so
+# it works regardless of PATH) — run that instead of copying this
+# file by hand, unless you have a specific reason not to. If copying
+# this file directly, make sure `revise-launch.sh` (see the same
+# directory) is itself on your PATH, or change Exec= to its absolute
+# path.
+[Desktop Entry]
+Type=Application
+Name=Revise
+Comment=A lightweight, native revision planner
+Exec=revise-launch.sh
+Icon=revise
+Terminal=false
+Categories=Education;Office;
+StartupNotify=true
+X-GNOME-Autostart-enabled=true

@@ -1,0 +1,23 @@
+[package]
+name = "revise"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# Upgraded from 0.24 (whose default backend, glow/glutin, crashed
+# with NoGlutinConfigs on a real NVIDIA + Hyprland + Wayland machine)
+# to the version validated first, in isolation, by
+# diagnostics/eframe-wgpu-smoke-test/ — confirmed to open a window on
+# that exact machine. `default-features = false` + explicit "wgpu"
+# (not "glow") is deliberate: this app should never again pull in
+# glutin/EGL at all, not even as an unused fallback.
+eframe = { version = "=0.36.2", default-features = false, features = ["wgpu", "default_fonts", "wayland", "x11"] }
+egui = "=0.36.2"
+chrono = "0.4"
+rusqlite = { version = "0.31", features = ["bundled"] }
+url = "=2.4.1"
+idna = "=0.4.0"
+home = "=0.5.9"
+env_logger = "0.10"
