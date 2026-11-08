@@ -1,0 +1,22 @@
+# This is a template. `packaging/install.sh` generates a working
+# version of this file automatically (with an absolute Exec= path, so
+# it works regardless of PATH) — run that instead of copying this
+# file by hand, unless you have a specific reason not to. If copying
+# this file directly, make sure `revise-applet-launch.sh` (see the
+# same directory) is itself on your PATH, or change Exec= to its
+# absolute path.
+[Desktop Entry]
+Type=Application
+Name=Revise Timer
+GenericName=Timer, Pomodoro and Stopwatch
+Comment=Revise's small timer, Pomodoro and stopwatch — logs your time to Revise
+Exec=revise-applet-launch.sh
+Icon=revise-applet
+Terminal=false
+Categories=Education;Utility;
+Keywords=timer;pomodoro;stopwatch;focus;revise;
+StartupNotify=true
+# Matches the app id the applet sets (`.with_app_id("revise-applet")`), so
+# launchers group its window under this entry and a Hyprland window rule
+# can target it.
+StartupWMClass=revise-applet
