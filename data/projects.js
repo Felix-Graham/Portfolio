@@ -6,10 +6,10 @@ export const projects = [
   {
     title:       'Revise App',
     sub:         'A Very Useful Rust App Built With EGUI For Full System Integration',
-    tags:        ['Rust', 'Wayland Compositor'],
+    tags:        ['Rust', 'Wayland Compositor', 'LLM'],
     year:        '2026',
-    image:       'https://felix-graham.github.io/Portfolio/projects/reviseApp/demo.png',
-    description: 'Contrary to many of my other projects, this was almost fully vibe coded with a little bit of human debugging. Although I am learning Rust, I wasn\'t confident enough to build this monolithic desktop application, hence my usage of LLMs. The app holds a host of features such as an interactive calendar, to do list with repeating events as an option, as well as basic revision tools such as flashcards, a pomodoro timer and habit tracker. The main challenged which I faced was It\'s system deployment. Because I was using an older version of Egui, my compositor session would struggle with displaying it due to the Glutin based backend. Having moved on from that, it is fully a part of my Hyprland environment, with notifications togglable between Hyprctl and Caelestia.',
+    image:       null,
+    description: 'Contrary to many of my other projects, this was almost fully vibe coded with a little bit of human debugging. Although I am learning Rust, I wasn\'t confident enough to build this monolithic desktop application, hence my usage of LLMs. The app holds a host of features such as an interactive calendar, to do list with repeating events as an option, as well as basic revision tools such as flashcards, a pomodoro timer and habit tracker. The main thing which challenged was it\'s system deployment. Because I was using an older version of Egui, my compositor session would struggle with displaying it due to the Glutin based backend. Having moved on from that, it is fully a part of my Hyprland environment, with notifications togglable between Hyprctl and Caelestia.',
     links: [
       { label: 'Source',    icon: 'github',        href: 'https://github.com/Felix-Graham/Portfolio/tree/main/projects/reviseApp' },     
     ],
